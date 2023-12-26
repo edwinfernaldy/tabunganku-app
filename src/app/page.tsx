@@ -1,3 +1,5 @@
+"use client";
+
 import { useLandingStore } from "@/store";
 import LoginSection from "./_element/login";
 import RegisterSection from "./_element/register";
