@@ -28,10 +28,10 @@ const LoginSection = () => {
         <Button onClick={() => logIn()}>Login</Button>
       </div>
 
-      <p>
+      <p className='text-white'>
         Don&lsquo;t have an account?{" "}
         <a
-          className='border-b border-black cursor-pointer hover:text-white hover:border-white hover:pb-1 transition-all duration-200'
+          className='border-b border-white cursor-pointer  hover:pb-1 transition-all duration-200'
           onClick={() => setType("register")}
         >
           Register here
