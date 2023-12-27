@@ -17,25 +17,21 @@ const validate = (params: TransactionRequestType) => {
   }
 };
 
-const addTransaction = async (params: TransactionRequestType) => {
-  await prisma.transaction.create({
-    data: {
-      type: params.type,
-      desc: params.desc,
-      amount: params.amount,
-      date: params.date,
-      user_id: params.user_id
-    }
-  });
-};
-
 export async function POST(req: NextRequest) {
   try {
     const data = (await req.json()) as TransactionRequestType;
 
     validate(data);
 
-    addTransaction(data);
+    await prisma.transaction.create({
+      data: {
+        type: data.type,
+        desc: data.desc,
+        amount: data.amount,
+        date: new Date(data.date).toISOString(),
+        user_id: data.user_id
+      }
+    });
 
     return NextResponse.json(
       JSON.stringify({
