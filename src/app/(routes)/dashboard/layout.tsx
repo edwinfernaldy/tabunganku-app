@@ -12,13 +12,13 @@ export const metadata = {
 const MobileNavbar = () => {
   return (
     <div className='md:hidden flex fixed w-full bottom-0 h-14 shadow-md bg-blue-400 text-white items-center justify-between px-10'>
-      <a href='#'>
+      <a href='/dashboard'>
         <FaChartLine className='text-2xl' />
       </a>
       <a href='#'>
         <GrMoney className='text-2xl' />
       </a>
-      <a href='#'>
+      <a href='/dashboard/transaction'>
         <GrTransaction className='text-2xl' />
       </a>
       <a href='#'>
@@ -49,7 +49,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </a>
 
           <a
-            href='#'
+            href='/dashboard/transaction'
             className='shadow-md p-3 bg-white/10 cursor-pointer hover:scale-105 transition-all'
           >
             <p className='flex items-center gap-5'>
