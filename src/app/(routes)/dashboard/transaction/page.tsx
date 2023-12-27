@@ -9,9 +9,25 @@ import { Transaction } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 
+interface FormTransaction {
+  type: "INCOME" | "EXPENSE" | string;
+  date: string;
+  amount: number;
+  description: string;
+}
+
+const initialData: FormTransaction = {
+  type: "INCOME",
+  date: "",
+  amount: 0,
+  description: ""
+};
+
 const Transaction: React.FC = () => {
   const [data, setData] = useState<Transaction[]>();
   const [open, setOpen] = useState<boolean>(false);
+
+  const [form, setForm] = useState<FormTransaction>(initialData);
 
   const getTransactionData = async () => {
     await fetch("/api/transaction", {
@@ -21,6 +37,16 @@ const Transaction: React.FC = () => {
       const transactions = (await res.json()) as Transaction[];
 
       setData(transactions);
+    });
+  };
+
+  const addTransactionData = async () => {
+    await fetch("/api/transaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
+    }).then(async (res) => {
+      setForm(initialData);
     });
   };
 
@@ -50,7 +76,11 @@ const Transaction: React.FC = () => {
                 <div className='flex flex-col gap-2 basis-1/2'>
                   <label>Type</label>
 
-                  <select className='w-full border border-gray-400 p-3 rounded-md appearance-none'>
+                  <select
+                    value={form.type}
+                    onChange={(e) => setForm({ ...form, type: e.target.value })}
+                    className='w-full border border-gray-400 p-3 rounded-md appearance-none'
+                  >
                     <option value={"INCOME"}>Income</option>
                     <option value={"EXPENSE"}>Expense</option>
                   </select>
@@ -59,10 +89,10 @@ const Transaction: React.FC = () => {
                 <div className='flex flex-col gap-2 basis-1/2'>
                   <label>Transaction Date</label>
                   <Input
+                    value={form.date}
+                    onChange={(e) => setForm({ ...form, date: e.target.value })}
                     className='border border-gray-400'
                     type={"date"}
-                    onChange={() => {}}
-                    value={""}
                   />
                 </div>
               </div>
@@ -70,24 +100,28 @@ const Transaction: React.FC = () => {
               <div className='flex flex-col gap-2'>
                 <label>Amount</label>
                 <Input
+                  value={form.amount}
+                  onChange={(e) =>
+                    setForm({ ...form, amount: Number(e.target.value) })
+                  }
                   className='border border-gray-400'
                   type={"text"}
-                  onChange={() => {}}
-                  value={""}
                 />
               </div>
 
               <div className='flex flex-col gap-2'>
                 <label>Description</label>
                 <Input
+                  value={form.description}
+                  onChange={(e) =>
+                    setForm({ ...form, description: e.target.value })
+                  }
                   className='border border-gray-400'
                   type={"text"}
-                  onChange={() => {}}
-                  value={""}
                 />
               </div>
 
-              <Button>Submit</Button>
+              <Button onClick={() => addTransactionData()}>Submit</Button>
             </div>
           </Modal>
         )}
