@@ -8,12 +8,11 @@ interface RegisterRequestType {
   confirm_password: string;
 }
 
-const hasSigned = (username: string) => {
+const hasSigned = async (username: string) => {
   return prisma.user.findFirst({
     where: {
       username
-    },
-    select: { id: true }
+    }
   });
 };
 
@@ -48,24 +47,22 @@ export async function POST(req: NextRequest) {
 
     await register(user);
 
-    NextResponse.json(
+    return NextResponse.json(
       JSON.stringify({
         success: true
       })
     );
-
-    return true;
   } catch (e) {
     const error = e as Error;
+
     if (error instanceof BadRequestException) {
-      NextResponse.json({
+      return NextResponse.json({
         error: {
           message: error.message
         }
       });
     } else {
-      console.log(error);
-      NextResponse.json({
+      return NextResponse.json({
         error: {
           message: "Internal server error"
         }

@@ -1,9 +1,23 @@
 import Button from "@/components/Button";
 import { useLandingStore } from "@/store";
+import { useState } from "react";
 
 const RegisterSection = () => {
   const setType = useLandingStore((state) => state.setType);
-  const register = () => {};
+
+  const [userData, setUserData] = useState({
+    username: "",
+    password: "",
+    confirm_password: ""
+  });
+
+  const register = async () => {
+    await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData)
+    }).then(async (data) => await data.json());
+  };
 
   return (
     <>
@@ -14,6 +28,10 @@ const RegisterSection = () => {
       <div className='flex flex-col gap-3'>
         <input
           placeholder='Username'
+          value={userData.username}
+          onChange={(e) =>
+            setUserData({ ...userData, username: e.target.value })
+          }
           type={"text"}
           className='p-3 rounded-md bg-white/80'
         />
@@ -21,11 +39,19 @@ const RegisterSection = () => {
         <input
           placeholder='Password'
           type={"password"}
+          value={userData.password}
+          onChange={(e) =>
+            setUserData({ ...userData, password: e.target.value })
+          }
           className='p-3 rounded-md bg-white/80'
         />
 
         <input
           placeholder='Confirm Password'
+          value={userData.confirm_password}
+          onChange={(e) =>
+            setUserData({ ...userData, confirm_password: e.target.value })
+          }
           type={"password"}
           className='p-3 rounded-md bg-white/80'
         />
