@@ -135,8 +135,7 @@ const Transaction: React.FC = () => {
           header={
             <tr>
               <th>No.</th>
-              <th className='p-3'>Transaction Id</th>
-              <th>Description</th>
+              <th className='p-3'>Description</th>
               <th>Type</th>
               <th>Amount</th>
             </tr>
@@ -144,10 +143,9 @@ const Transaction: React.FC = () => {
         >
           {data &&
             data.map((row, i) => (
-              <tr key={i}>
+              <tr className='text-center border-b-2 border-gray-400' key={i}>
                 <td>{i + 1}</td>
-                <td>{row.id}</td>
-                <td>{row.desc}</td>
+                <td className='py-4'>{row.desc}</td>
                 <td>{row.type}</td>
                 <td>{String(row.amount)}</td>
               </tr>
