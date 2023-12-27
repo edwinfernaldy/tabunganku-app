@@ -13,7 +13,7 @@ export default function Button(props: ButtonProps) {
     <button
       onClick={onClick}
       className={
-        "py-4 px-10 w-full text-black hover:text-white bg-white/50 hover:bg-black/50 rounded-md transition-all " +
+        "py-4 px-10 w-full hover:text-black text-white hover:bg-white/50 bg-blue-800/80 rounded-md transition-all " +
         className
       }
     >
