@@ -70,7 +70,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      <div className='basis-4/5 p-4 md:p-10'>{children}</div>
+      <div className='w-full md:basis-4/5 p-4 bg-gradient-to-br from-blue-300 md:p-10'>
+        {children}
+      </div>
 
       <MobileNavbar />
     </div>
