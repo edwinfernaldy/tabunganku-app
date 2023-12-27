@@ -21,7 +21,7 @@ const LoginSection = () => {
     }).then(async (data) => {
       const res = await data.json();
 
-      if (res.success) {
+      if (JSON.parse(res).success) {
         router.push("/dashboard");
       } else {
         router.push("/");
