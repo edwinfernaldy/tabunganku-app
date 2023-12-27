@@ -5,6 +5,7 @@ import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import Table from "@/components/Table";
+import { useSessionStore } from "@/store";
 import { Transaction } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
@@ -13,19 +14,23 @@ interface FormTransaction {
   type: "INCOME" | "EXPENSE" | string;
   date: string;
   amount: number;
-  description: string;
+  desc: string;
+  user_id: string;
 }
-
-const initialData: FormTransaction = {
-  type: "INCOME",
-  date: "",
-  amount: 0,
-  description: ""
-};
 
 const Transaction: React.FC = () => {
   const [data, setData] = useState<Transaction[]>();
   const [open, setOpen] = useState<boolean>(false);
+
+  const userId = useSessionStore((state) => state.userId);
+
+  const initialData: FormTransaction = {
+    type: "INCOME",
+    date: "",
+    amount: 0,
+    desc: "",
+    user_id: userId
+  };
 
   const [form, setForm] = useState<FormTransaction>(initialData);
 
@@ -112,10 +117,8 @@ const Transaction: React.FC = () => {
               <div className='flex flex-col gap-2'>
                 <label>Description</label>
                 <Input
-                  value={form.description}
-                  onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
-                  }
+                  value={form.desc}
+                  onChange={(e) => setForm({ ...form, desc: e.target.value })}
                   className='border border-gray-400'
                   type={"text"}
                 />
