@@ -1,13 +1,15 @@
 "use client";
 
 import Button from "@/components/Button";
-import { useLandingStore } from "@/store";
+import { useLandingStore, useSessionStore } from "@/store";
+import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const LoginSection = () => {
   const router = useRouter();
   const setType = useLandingStore((state) => state.setType);
+  const setUserId = useSessionStore((state) => state.setUserId);
   const [userData, setUserData] = useState({
     username: "",
     password: ""
@@ -18,15 +20,19 @@ const LoginSection = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
-    }).then(async (data) => {
-      const res = await data.json();
+    })
+      .then(async (data) => {
+        const res = await data.json();
+        const user = JSON.parse(res) as User;
 
-      if (JSON.parse(res).success) {
-        router.push("/dashboard");
-      } else {
-        router.push("/");
-      }
-    });
+        if (user.id) {
+          setUserId(user.id);
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (

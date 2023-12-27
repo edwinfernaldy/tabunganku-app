@@ -47,11 +47,11 @@ export async function POST(req: NextRequest) {
 
     await register(user);
 
-    return NextResponse.json(
-      JSON.stringify({
-        success: true
-      })
-    );
+    const user_info = await prisma.user.findFirst({
+      where: { username: user.username }
+    });
+
+    return NextResponse.json(JSON.stringify(user_info));
   } catch (e) {
     const error = e as Error;
 

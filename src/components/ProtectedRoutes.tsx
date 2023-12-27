@@ -10,6 +10,7 @@ const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
   const userId = useSessionStore((state) => state.userId);
 
   useEffect(() => {
+    console.log(userId);
     if (!userId) {
       router.push("/");
     }

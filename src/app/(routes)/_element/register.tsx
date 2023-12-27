@@ -1,22 +1,38 @@
 import Button from "@/components/Button";
-import { useLandingStore } from "@/store";
+import { useLandingStore, useSessionStore } from "@/store";
+import { User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const RegisterSection = () => {
   const setType = useLandingStore((state) => state.setType);
-
+  const router = useRouter();
   const [userData, setUserData] = useState({
     username: "",
     password: "",
     confirm_password: ""
   });
 
+  const setUserId = useSessionStore((state) => state.setUserId);
+
   const register = async () => {
     await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
-    }).then(async (data) => await data.json());
+    })
+      .then(async (data) => {
+        const res = await data.json();
+        const user = JSON.parse(res) as User;
+
+        if (user.id) {
+          setUserId(user.id);
+          router.push("/dashboard");
+        } else {
+          throw new Error();
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (

@@ -31,19 +31,17 @@ const logIn = async (params: LoginRequestType) => {
   if (params.password !== user_data.password) {
     throw new BadRequestException("Wrong Password");
   }
+
+  return user_data;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const user = (await req.json()) as LoginRequestType;
+    const user_params = (await req.json()) as LoginRequestType;
 
-    await logIn(user);
+    const user_info = await logIn(user_params);
 
-    return NextResponse.json(
-      JSON.stringify({
-        success: true
-      })
-    );
+    return NextResponse.json(JSON.stringify(user_info));
   } catch (e) {
     const error = e as Error;
 
