@@ -28,3 +28,19 @@ export const useSessionStore = create<SessionState>()(
     }
   )
 );
+
+export const formatPrice = (price: number): string => {
+  const priceArray = price.toString().split(".");
+
+  const integerPartWithCommas = priceArray[0].replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    "."
+  );
+
+  const formattedPrice =
+    priceArray.length > 1
+      ? `${integerPartWithCommas},${priceArray[1]}`
+      : `${integerPartWithCommas},-`;
+
+  return formattedPrice;
+};
