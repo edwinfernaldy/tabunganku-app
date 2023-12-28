@@ -19,7 +19,7 @@ interface FormTransaction {
 }
 
 const Transaction: React.FC = () => {
-  const [data, setData] = useState<Transaction[]>();
+  const [data, setData] = useState<Transaction[]>([]);
   const [open, setOpen] = useState<boolean>(false);
 
   const userId = useSessionStore((state) => state.userId);
@@ -41,7 +41,9 @@ const Transaction: React.FC = () => {
     }).then(async (res) => {
       const transactions = (await res.json()) as Transaction[];
 
-      setData(transactions);
+      if (transactions.length !== 0) {
+        setData(transactions);
+      }
     });
   };
 
@@ -131,26 +133,28 @@ const Transaction: React.FC = () => {
       </div>
 
       <Card>
-        <Table
-          header={
-            <tr>
-              <th>No.</th>
-              <th className='p-3'>Description</th>
-              <th>Type</th>
-              <th>Amount</th>
-            </tr>
-          }
-        >
-          {data &&
-            data.map((row, i) => (
-              <tr className='text-center border-b-2 border-gray-400' key={i}>
-                <td>{i + 1}</td>
-                <td className='py-4'>{row.desc}</td>
-                <td>{row.type}</td>
-                <td>{String(row.amount)}</td>
+        {data && (
+          <Table
+            header={
+              <tr>
+                <th>No.</th>
+                <th className='p-3'>Description</th>
+                <th>Type</th>
+                <th>Amount</th>
               </tr>
-            ))}
-        </Table>
+            }
+          >
+            {data.length !== 0 &&
+              data.map((row, i) => (
+                <tr className='text-center border-b-2 border-gray-400' key={i}>
+                  <td>{i + 1}</td>
+                  <td className='py-4'>{row.desc}</td>
+                  <td>{row.type}</td>
+                  <td>{String(row.amount)}</td>
+                </tr>
+              ))}
+          </Table>
+        )}
       </Card>
     </section>
   );
