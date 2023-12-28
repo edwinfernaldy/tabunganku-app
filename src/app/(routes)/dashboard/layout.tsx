@@ -30,19 +30,13 @@ const MobileNavbar = ({ logOut }: { logOut: () => void }) => {
 };
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const username = useSessionStore((state) => state.username);
-
   const { setUserId, setUsername } = useSessionStore();
 
   return (
     <ProtectedRoutes>
       <div className='min-h-screen w-full flex '>
         <div className='basis-1/5 bg-blue-400 hidden md:flex flex-col'>
-          <div className='p-4 flex items-center gap-4'>
-            <LuUserCircle2 className='text-5xl text-white' />
-            <h1 className='font-bold text-white tracking-tight'>{username}</h1>
-          </div>
-
+          <h1 className='p-4 text-white font-bold text-3xl'>MENU</h1>
           <div className='text-white flex flex-col gap-3 p-4'>
             <a
               href='/dashboard'
