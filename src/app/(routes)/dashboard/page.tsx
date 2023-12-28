@@ -8,7 +8,9 @@ import ChartSection from "./_element/chart.section";
 
 const Dashboard: React.FC = () => {
   const { userId, username } = useSessionStore();
-
+  const [chartData, setChartData] = useState<
+    { _sum: { amount: number }; type: string; month: string }[]
+  >([]);
   const [balance, setBalance] = useState<number>(0);
 
   const [today, setToday] = useState<{ income: number; expense: number }>({
@@ -66,9 +68,21 @@ const Dashboard: React.FC = () => {
     setToday({ income: income, expense: expense });
   };
 
+  const getChartData = async () => {
+    await fetch("/api/chart-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userId)
+    }).then(async (data) => {
+      const res = await data.json();
+      setChartData(res);
+    });
+  };
+
   useEffect(() => {
     getBalance();
     getTodayTransaction();
+    getChartData();
   }, []);
 
   return (
@@ -111,7 +125,7 @@ const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      <ChartSection />
+      <ChartSection data={chartData} />
     </section>
   );
 };
