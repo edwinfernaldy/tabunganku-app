@@ -63,7 +63,7 @@ const ChartSection = (props: ChartProps) => {
   }, [data]);
 
   return (
-    <Card className='flex flex-col gap-2'>
+    <Card className='flex flex-col gap-5'>
       <h1>Overview</h1>
 
       <div className='w-full h-80'>
