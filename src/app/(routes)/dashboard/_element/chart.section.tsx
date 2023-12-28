@@ -74,16 +74,8 @@ const ChartSection = (props: ChartProps) => {
             <YAxis hide />
             <Tooltip />
             <Legend />
-            <Bar
-              dataKey='income'
-              fill='#8884d8'
-              activeBar={<Rectangle fill='pink' stroke='blue' />}
-            />
-            <Bar
-              dataKey='expense'
-              fill='#82ca9d'
-              activeBar={<Rectangle fill='gold' stroke='purple' />}
-            />
+            <Bar dataKey='income' fill='#34eb8c' />
+            <Bar dataKey='expense' fill='#eb4034' />
           </BarChart>
         </ResponsiveContainer>
       </div>
