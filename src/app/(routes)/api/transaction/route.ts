@@ -17,11 +17,25 @@ const validate = (params: TransactionRequestType) => {
   }
 };
 
+const getBalance = async (user_id: string) => {
+  return await prisma.balance.findMany({
+    where: {
+      user_id
+    },
+    orderBy: {
+      id: "desc"
+    },
+    take: 1
+  });
+};
+
 export async function POST(req: NextRequest) {
   try {
     const data = (await req.json()) as TransactionRequestType;
 
     validate(data);
+
+    const balance = await getBalance(data.user_id);
 
     await prisma.transaction.create({
       data: {
@@ -32,6 +46,22 @@ export async function POST(req: NextRequest) {
         user_id: data.user_id
       }
     });
+
+    if (data.type === "EXPENSE") {
+      await prisma.balance.create({
+        data: {
+          user_id: data.user_id,
+          amount: Number(balance[0].amount) - Number(data.amount)
+        }
+      });
+    } else {
+      await prisma.balance.create({
+        data: {
+          user_id: data.user_id,
+          amount: Number(balance[0].amount) + Number(data.amount)
+        }
+      });
+    }
 
     return NextResponse.json(
       JSON.stringify({
