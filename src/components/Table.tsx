@@ -16,7 +16,9 @@ const Table = (props: TableProps) => {
       ) : (
         <tbody className='tracking-tight text-xl p-4 text-center font-bold'>
           <tr>
-            <td>Data Unavailable</td>
+            <td colSpan={4} className='p-4'>
+              Data Unavailable
+            </td>
           </tr>
         </tbody>
       )}
