@@ -30,6 +30,9 @@ export const useSessionStore = create<SessionState>()(
 );
 
 export const formatPrice = (price: number): string => {
+  if (!price) {
+    return "0,-";
+  }
   const priceArray = price.toString().split(".");
 
   const integerPartWithCommas = priceArray[0].replace(
