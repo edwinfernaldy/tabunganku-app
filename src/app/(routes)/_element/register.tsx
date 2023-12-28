@@ -14,6 +14,7 @@ const RegisterSection = () => {
   });
 
   const setUserId = useSessionStore((state) => state.setUserId);
+  const setUsername = useSessionStore((state) => state.setUsername);
 
   const register = async () => {
     await fetch("/api/register", {
@@ -27,6 +28,7 @@ const RegisterSection = () => {
 
         if (user.id) {
           setUserId(user.id);
+          setUsername(user.username);
           router.push("/dashboard");
         } else {
           throw new Error();

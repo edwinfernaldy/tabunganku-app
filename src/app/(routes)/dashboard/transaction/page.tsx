@@ -5,7 +5,7 @@ import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import Table from "@/components/Table";
-import { useSessionStore } from "@/store";
+import { formatPrice, useSessionStore } from "@/store";
 import { Transaction } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
@@ -150,7 +150,7 @@ const Transaction: React.FC = () => {
                   <td>{i + 1}</td>
                   <td className='py-4'>{row.desc}</td>
                   <td>{row.type}</td>
-                  <td>{String(row.amount)}</td>
+                  <td>Rp {formatPrice(Number(row.amount))}</td>
                 </tr>
               ))}
           </Table>

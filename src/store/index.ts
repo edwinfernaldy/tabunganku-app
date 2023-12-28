@@ -8,7 +8,9 @@ interface LandingState {
 
 interface SessionState {
   userId: string;
+  username: string;
   setUserId: (params: string) => void;
+  setUsername: (params: string) => void;
 }
 
 export const useLandingStore = create<LandingState>()((set) => ({
@@ -20,7 +22,9 @@ export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       userId: "",
-      setUserId: (params: string) => set(() => ({ userId: params }))
+      username: "",
+      setUserId: (params: string) => set(() => ({ userId: params })),
+      setUsername: (params: string) => set(() => ({ username: params }))
     }),
     {
       name: "user-storage",

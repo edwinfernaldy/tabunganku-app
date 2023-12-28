@@ -10,6 +10,7 @@ const LoginSection = () => {
   const router = useRouter();
   const setType = useLandingStore((state) => state.setType);
   const setUserId = useSessionStore((state) => state.setUserId);
+  const setUsername = useSessionStore((state) => state.setUsername);
   const [userData, setUserData] = useState({
     username: "",
     password: ""
@@ -27,6 +28,7 @@ const LoginSection = () => {
 
         if (user.id) {
           setUserId(user.id);
+          setUsername(user.username);
           router.push("/dashboard");
         } else {
           router.push("/");
