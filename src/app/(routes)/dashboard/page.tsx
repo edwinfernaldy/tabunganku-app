@@ -5,7 +5,7 @@ import ChartSection from "./_element/chart.section";
 
 const Dashboard: React.FC = () => {
   return (
-    <section className='space-y-10 overflow-hidden'>
+    <section className='flex flex-col gap-10 h-full justify-center overflow-hidden'>
       <h1 className='font-bold text-2xl lg:text-5xl text-end text-white tracking-tight'>
         Tracker
       </h1>

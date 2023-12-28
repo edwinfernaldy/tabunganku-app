@@ -60,7 +60,7 @@ const Transaction: React.FC = () => {
   }, []);
 
   return (
-    <section className='space-y-10'>
+    <section className='flex flex-col gap-10 justify-center h-full'>
       <h1 className='font-bold text-white text-end text-2xl lg:text-5xl tracking-tight'>
         Transaction Menu
       </h1>
