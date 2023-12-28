@@ -23,8 +23,7 @@ const LoginSection = () => {
       body: JSON.stringify(userData)
     })
       .then(async (data) => {
-        const res = await data.json();
-        const user = JSON.parse(res) as User;
+        const user = (await data.json()) as User;
 
         if (user.id) {
           setUserId(user.id);
