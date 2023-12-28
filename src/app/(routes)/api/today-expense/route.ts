@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       throw new BadRequestException("Missing User Id");
     }
 
-    const income = await prisma.transaction.findMany({
+    const expense = await prisma.transaction.findMany({
       where: {
         type: "EXPENSE",
         date: new Date().toISOString(),
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return NextResponse.json(income);
+    return NextResponse.json(expense);
   } catch (e) {
     const error = e as Error;
 
