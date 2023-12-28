@@ -4,17 +4,16 @@ import prisma from "../../../../../lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
-    const data = (await req.json()) as { user_id: string };
+    const data = (await req.json()) as string;
 
-    if (!data.user_id) {
+    if (!data) {
       throw new BadRequestException("Missing User Id");
     }
 
     const expense = await prisma.transaction.findMany({
       where: {
         type: "EXPENSE",
-        date: new Date().toISOString(),
-        user_id: data.user_id
+        user_id: data
       }
     });
 

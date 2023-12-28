@@ -16,9 +16,13 @@ const getBalance = async (user_id: string) => {
 
 export async function POST(req: NextRequest) {
   try {
-    const data = (await req.json()) as { user_id: string };
+    const data = (await req.json()) as string;
 
-    const balance = await getBalance(data.user_id);
+    if (!data) {
+      throw new BadRequestException("Missing User Id");
+    }
+
+    const balance = await getBalance(data);
 
     return NextResponse.json(JSON.stringify(balance[0]));
   } catch (e) {
