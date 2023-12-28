@@ -41,6 +41,15 @@ const register = async (params: RegisterRequestType) => {
   });
 };
 
+const createInitialBalance = async (user_id: string) => {
+  await prisma.balance.create({
+    data: {
+      user_id: user_id,
+      amount: 0
+    }
+  });
+};
+
 export async function POST(req: NextRequest) {
   try {
     const user = (await req.json()) as RegisterRequestType;
@@ -50,6 +59,12 @@ export async function POST(req: NextRequest) {
     const user_info = await prisma.user.findFirst({
       where: { username: user.username }
     });
+
+    if (!user_info?.id) {
+      throw new BadRequestException("User Error");
+    }
+
+    createInitialBalance(user_info.id);
 
     return NextResponse.json(JSON.stringify(user_info));
   } catch (e) {
