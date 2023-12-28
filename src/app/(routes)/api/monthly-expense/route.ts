@@ -10,10 +10,27 @@ export async function POST(req: NextRequest) {
       throw new BadRequestException("Missing User Id");
     }
 
+    const currentDate = new Date();
+    const startMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+
+    const endMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0
+    );
+
     const expense = await prisma.transaction.findMany({
       where: {
         type: "EXPENSE",
-        user_id: data
+        user_id: data,
+        date: {
+          gte: startMonth,
+          lte: endMonth
+        }
       }
     });
 

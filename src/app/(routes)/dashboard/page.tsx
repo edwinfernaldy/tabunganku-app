@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
     let income = 0;
     let expense = 0;
 
-    await fetch("/api/today-income", {
+    await fetch("/api/monthly-income", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userId)
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
       }
     });
 
-    await fetch("/api/today-expense", {
+    await fetch("/api/monthly-expense", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userId)
@@ -91,7 +91,9 @@ const Dashboard: React.FC = () => {
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
-          <h1>Today&lsquo;s Income</h1>
+          <h1>
+            {new Date().toLocaleString("default", { month: "long" })} Income
+          </h1>
 
           <h1 className='font-extrabold text-xl text-green-600'>
             Rp {formatPrice(today.income)}
@@ -99,7 +101,9 @@ const Dashboard: React.FC = () => {
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
-          <h1>Today&lsquo;s Expenses</h1>
+          <h1>
+            {new Date().toLocaleString("default", { month: "long" })} Expense
+          </h1>
 
           <h1 className='font-extrabold text-xl text-red-500'>
             Rp {formatPrice(today.expense)}
