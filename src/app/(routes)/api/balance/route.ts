@@ -2,7 +2,7 @@ import { BadRequestException } from "@/server/http.errors";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../../lib/prisma";
 
-export const getBalance = async (user_id: string) => {
+const getBalance = async (user_id: string) => {
   return await prisma.balance.findMany({
     where: {
       user_id
@@ -16,7 +16,7 @@ export const getBalance = async (user_id: string) => {
 
 export async function GET(req: NextRequest) {
   try {
-    const data = await req.json();
+    const data = (await req.json()) as { user_id: string };
 
     const balance = await getBalance(data.user_id);
 

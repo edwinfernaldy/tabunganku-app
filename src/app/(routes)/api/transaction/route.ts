@@ -2,7 +2,6 @@ import { BadRequestException } from "@/server/http.errors";
 import { Decimal } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../../lib/prisma";
-import { getBalance } from "../balance/route";
 
 interface TransactionRequestType {
   user_id: string;
@@ -11,6 +10,18 @@ interface TransactionRequestType {
   amount: Decimal;
   desc: string;
 }
+
+const getBalance = async (user_id: string) => {
+  return await prisma.balance.findMany({
+    where: {
+      user_id
+    },
+    orderBy: {
+      id: "desc"
+    },
+    take: 1
+  });
+};
 
 const validate = (params: TransactionRequestType) => {
   if (!params.amount || !params.date || !params.amount || !params.desc) {
