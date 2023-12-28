@@ -35,18 +35,19 @@ const Dashboard: React.FC = () => {
       <div className='flex gap-4 w-full flex-col lg:flex-row'>
         <Card className='flex flex-col gap-2 basis-1/3'>
           <h1>Balance</h1>
-          <h1 className='font-extrabold text-xl'>
-            Rp {formatPrice(balance)},-
-          </h1>
+
+          <h1 className='font-extrabold text-xl'>Rp {formatPrice(balance)}</h1>
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
           <h1>Today&lsquo;s Income</h1>
+
           <h1 className='font-extrabold text-xl text-green-600'>Rp 0,-</h1>
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
           <h1>Today&lsquo;s Expenses</h1>
+
           <h1 className='font-extrabold text-xl'>Rp 0,-</h1>
         </Card>
       </div>
