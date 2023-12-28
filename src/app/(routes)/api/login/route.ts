@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const user_info = await logIn(user_params);
 
-    return NextResponse.json(JSON.stringify(user_info));
+    return NextResponse.json(user_info);
   } catch (e) {
     const error = e as Error;
 
