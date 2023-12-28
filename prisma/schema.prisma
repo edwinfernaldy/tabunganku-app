@@ -21,6 +21,8 @@ model Transaction {
     type        TransactionTypes
     amount      Decimal     @db.Decimal(15,2)
     date        DateTime
+    month       String
+    year        Int
     desc        String
     created_at   DateTime  @default(now()) 
     updated_at   DateTime  @updatedAt  
