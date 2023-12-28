@@ -137,20 +137,24 @@ const Transaction: React.FC = () => {
           <Table
             header={
               <tr>
-                <th>No.</th>
-                <th className='p-3'>Description</th>
+                <th className='text-left p-3'>Date</th>
+                <th className='py-3 text-left'>Description</th>
                 <th>Type</th>
-                <th>Amount</th>
+                <th className='text-left'>Amount</th>
               </tr>
             }
           >
             {data.length !== 0 &&
               data.map((row, i) => (
                 <tr className='text-center border-b-2 border-gray-400' key={i}>
-                  <td>{i + 1}</td>
-                  <td className='py-4'>{row.desc}</td>
+                  <td className='text-left p-3'>
+                    {new Date(row.date).toDateString()}
+                  </td>
+                  <td className='py-4 text-left'>{row.desc}</td>
                   <td>{row.type}</td>
-                  <td>Rp {formatPrice(Number(row.amount))}</td>
+                  <td className='text-left'>
+                    Rp {formatPrice(Number(row.amount))}
+                  </td>
                 </tr>
               ))}
           </Table>
