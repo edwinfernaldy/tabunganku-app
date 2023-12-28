@@ -39,6 +39,8 @@ export async function POST(req: NextRequest) {
 
     await prisma.transaction.create({
       data: {
+        month: new Date(data.date).toLocaleString("default", { month: "long" }),
+        year: new Date(data.date).getFullYear(),
         type: data.type,
         desc: data.desc,
         amount: data.amount,
