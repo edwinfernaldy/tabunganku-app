@@ -16,7 +16,7 @@ const MobileNavbar = () => {
       <a href='/dashboard'>
         <FaChartLine className='text-2xl' />
       </a>
-      <a href='#'>
+      <a href='/dashboard/balance'>
         <GrMoney className='text-2xl' />
       </a>
       <a href='/dashboard/transaction'>
@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </a>
 
             <a
-              href='#'
+              href='/dashboard/balance'
               className='shadow-md p-3 bg-white/10 cursor-pointer hover:scale-105 transition-all'
             >
               <p className='flex items-center gap-5'>
