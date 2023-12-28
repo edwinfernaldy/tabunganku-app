@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import ChartSection from "./_element/chart.section";
 
 const Dashboard: React.FC = () => {
-  const userId = useSessionStore((state) => state.userId);
+  const { userId, username } = useSessionStore();
 
   const [balance, setBalance] = useState<number>(0);
 
@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
   return (
     <section className='flex flex-col gap-10 h-full justify-center overflow-hidden'>
       <h1 className='font-bold text-2xl lg:text-5xl text-end text-white tracking-tight'>
-        Tracker
+        Hello, {username}
       </h1>
 
       <div className='flex gap-4 w-full flex-col lg:flex-row'>
