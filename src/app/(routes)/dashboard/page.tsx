@@ -2,6 +2,7 @@
 
 import Card from "@/components/Card";
 import { formatPrice, useSessionStore } from "@/store";
+import { Balance } from "@prisma/client";
 import { useEffect, useState } from "react";
 import ChartSection from "./_element/chart.section";
 
@@ -12,13 +13,16 @@ const Dashboard: React.FC = () => {
 
   const getBalance = async () => {
     await fetch("/api/balance", {
-      method: "GET",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userId)
     }).then(async (data) => {
-      const res = (await data.json()) as { amount: number };
+      const res = await data.json();
+      const temp = JSON.parse(res) as Balance;
 
-      setBalance(res.amount);
+      if (Number(temp.amount) !== 0) {
+        setBalance(Number(temp.amount));
+      }
     });
   };
 
@@ -36,7 +40,13 @@ const Dashboard: React.FC = () => {
         <Card className='flex flex-col gap-2 basis-1/3'>
           <h1>Balance</h1>
 
-          <h1 className='font-extrabold text-xl'>Rp {formatPrice(balance)}</h1>
+          <h1
+            className={
+              "font-extrabold text-xl " + (balance < 0 ? "text-red-500" : "")
+            }
+          >
+            Rp {formatPrice(balance)}
+          </h1>
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>

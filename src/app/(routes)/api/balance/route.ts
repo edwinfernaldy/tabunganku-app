@@ -14,7 +14,7 @@ const getBalance = async (user_id: string) => {
   });
 };
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const data = (await req.json()) as { user_id: string };
 
