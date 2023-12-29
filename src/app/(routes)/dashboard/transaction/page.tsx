@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
+import Skeleton from "@/components/Skeleton";
 import Table from "@/components/Table";
 import { formatPrice, useSessionStore } from "@/store";
 import { Transaction } from "@prisma/client";
@@ -21,6 +22,8 @@ interface FormTransaction {
 const Transaction: React.FC = () => {
   const [data, setData] = useState<Transaction[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   const userId = useSessionStore((state) => state.userId);
 
@@ -45,6 +48,8 @@ const Transaction: React.FC = () => {
         setData(transactions);
       }
     });
+
+    setLoading(false);
   };
 
   const addTransactionData = async () => {
@@ -144,7 +149,23 @@ const Transaction: React.FC = () => {
               </tr>
             }
           >
-            {data.length !== 0 &&
+            {loading ? (
+              <tr>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+              </tr>
+            ) : (
+              data.length !== 0 &&
               data.map((row, i) => (
                 <tr className='text-center border-b-2 border-gray-400' key={i}>
                   <td className='text-left p-3'>
@@ -156,7 +177,8 @@ const Transaction: React.FC = () => {
                     Rp {formatPrice(Number(row.amount))}
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
           </Table>
         )}
       </Card>
