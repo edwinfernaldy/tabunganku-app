@@ -46,6 +46,8 @@ const Transaction: React.FC = () => {
 
       if (transactions.length !== 0) {
         setData(transactions);
+      } else {
+        alert("No Transaction Found");
       }
     });
 
@@ -58,7 +60,13 @@ const Transaction: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
     }).then(async (res) => {
-      setForm(initialData);
+      const data = await res.json();
+
+      if (data.success) {
+        setForm(initialData);
+      } else {
+        alert(data.error.message);
+      }
     });
   };
 
@@ -105,6 +113,7 @@ const Transaction: React.FC = () => {
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
                     className='border border-gray-400'
                     type={"date"}
+                    max={new Date().toISOString().split("T")[0]}
                   />
                 </div>
               </div>
