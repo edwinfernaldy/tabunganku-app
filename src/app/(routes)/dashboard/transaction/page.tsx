@@ -35,7 +35,7 @@ const Transaction: React.FC = () => {
   const [form, setForm] = useState<FormTransaction>(initialData);
 
   const getTransactionData = async () => {
-    await fetch("/api/transaction", {
+    await fetch(`/api/transaction?user_id=${userId}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     }).then(async (res) => {

@@ -91,7 +91,17 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const data = await prisma.transaction.findMany();
+    const user_id = req.nextUrl.searchParams.get("user_id");
+
+    if (!user_id) {
+      throw new BadRequestException("Missing User Id");
+    }
+
+    const data = await prisma.transaction.findMany({
+      where: {
+        user_id
+      }
+    });
 
     return NextResponse.json(data);
   } catch (e) {
