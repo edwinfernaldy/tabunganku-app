@@ -1,13 +1,15 @@
 import { ReactNode } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface ButtonProps {
   onClick?: () => void;
   className?: string;
   children: ReactNode;
+  isLoading?: boolean;
 }
 
 export default function Button(props: ButtonProps) {
-  const { onClick, className, children } = props;
+  const { onClick, className, children, isLoading } = props;
 
   return (
     <button
@@ -18,6 +20,9 @@ export default function Button(props: ButtonProps) {
       }
     >
       {children}
+      {isLoading && (
+        <AiOutlineLoading3Quarters className='text-2xl self-center animate-spin' />
+      )}
     </button>
   );
 }
