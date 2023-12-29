@@ -24,6 +24,7 @@ const Transaction: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
 
   const userId = useSessionStore((state) => state.userId);
 
@@ -55,6 +56,7 @@ const Transaction: React.FC = () => {
   };
 
   const addTransactionData = async () => {
+    setLoadingAdd(true);
     await fetch("/api/transaction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -69,6 +71,8 @@ const Transaction: React.FC = () => {
         alert(data.error.message);
       }
     });
+    setLoadingAdd(false);
+    getTransactionData();
   };
 
   useEffect(() => {
@@ -146,7 +150,12 @@ const Transaction: React.FC = () => {
                 />
               </div>
 
-              <Button onClick={() => addTransactionData()}>Submit</Button>
+              <Button
+                isLoading={loadingAdd}
+                onClick={() => addTransactionData()}
+              >
+                Submit
+              </Button>
             </div>
           </Modal>
         )}
