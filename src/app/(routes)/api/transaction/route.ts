@@ -65,11 +65,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    return NextResponse.json(
-      JSON.stringify({
-        success: true
-      })
-    );
+    return NextResponse.json({ success: true });
   } catch (e) {
     const error = e as Error;
 
