@@ -7,16 +7,22 @@ import { useState } from "react";
 const RegisterSection = () => {
   const setType = useLandingStore((state) => state.setType);
   const router = useRouter();
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<{
+    username: string;
+    password: string;
+    confirm_password: string;
+  }>({
     username: "",
     password: "",
     confirm_password: ""
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   const setUserId = useSessionStore((state) => state.setUserId);
   const setUsername = useSessionStore((state) => state.setUsername);
 
   const register = async () => {
+    setLoading(true);
     await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,10 +36,12 @@ const RegisterSection = () => {
           setUsername(user.username);
           router.push("/dashboard");
         } else {
+          alert("Register Failed");
           throw new Error();
         }
       })
       .catch((e) => console.log(e));
+    setLoading(false);
   };
 
   return (
@@ -73,7 +81,9 @@ const RegisterSection = () => {
           className='p-3 rounded-md bg-white/80'
         />
 
-        <Button onClick={() => register()}>Register</Button>
+        <Button isLoading={loading} onClick={() => register()}>
+          Register
+        </Button>
       </div>
 
       <p className='text-white'>

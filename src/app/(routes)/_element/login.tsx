@@ -16,7 +16,10 @@ const LoginSection = () => {
     password: ""
   });
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const logIn = async () => {
+    setLoading(true);
     await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,9 +34,12 @@ const LoginSection = () => {
           router.push("/dashboard");
         } else {
           router.push("/");
+          alert("Invalid Username or Password");
         }
       })
       .catch((e) => console.log(e));
+
+    setLoading(false);
   };
 
   return (
@@ -61,7 +67,9 @@ const LoginSection = () => {
           className='p-3 rounded-md bg-white/80'
         />
 
-        <Button onClick={() => logIn()}>Login</Button>
+        <Button isLoading={loading} onClick={() => logIn()}>
+          Login
+        </Button>
       </div>
 
       <p className='text-white'>
