@@ -64,6 +64,7 @@ const Transaction: React.FC = () => {
 
       if (data.success) {
         setForm(initialData);
+        alert("Transaction Successfully Added");
       } else {
         alert(data.error.message);
       }
@@ -121,10 +122,15 @@ const Transaction: React.FC = () => {
               <div className='flex flex-col gap-2'>
                 <label>Amount</label>
                 <Input
-                  value={form.amount}
-                  onChange={(e) =>
-                    setForm({ ...form, amount: Number(e.target.value) })
-                  }
+                  value={form.amount.toLocaleString("en-US")}
+                  onChange={(e) => {
+                    const rawValue = e.target.value.replace(/,/g, ""); // Remove existing commas
+                    const numberValue = Number(rawValue);
+
+                    if (!isNaN(numberValue)) {
+                      setForm({ ...form, amount: numberValue });
+                    }
+                  }}
                   className='border border-gray-400'
                   type={"text"}
                 />
