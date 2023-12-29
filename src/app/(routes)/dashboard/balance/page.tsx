@@ -1,6 +1,7 @@
 "use client";
 
 import Card from "@/components/Card";
+import Skeleton from "@/components/Skeleton";
 import Table from "@/components/Table";
 import { formatPrice, useSessionStore } from "@/store";
 import { Balance, Transaction } from "@prisma/client";
@@ -8,7 +9,7 @@ import React, { useEffect, useState } from "react";
 
 const BalancePage: React.FC = () => {
   const [data, setData] = useState<Balance[]>([]);
-  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const userId = useSessionStore((state) => state.userId);
 
@@ -24,6 +25,8 @@ const BalancePage: React.FC = () => {
         setData(balance);
       }
     });
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -46,7 +49,17 @@ const BalancePage: React.FC = () => {
               </tr>
             }
           >
-            {data.length !== 0 &&
+            {loading ? (
+              <tr>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+                <td>
+                  <Skeleton className='w-full h-14' />
+                </td>
+              </tr>
+            ) : (
+              data.length !== 0 &&
               data.map((row, i) => (
                 <tr className='text-center border-b-2 border-gray-400' key={i}>
                   <td className='py-4'>
@@ -56,7 +69,8 @@ const BalancePage: React.FC = () => {
                     Rp {formatPrice(Number(row.amount))}
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
           </Table>
         )}
       </Card>
