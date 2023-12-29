@@ -1,6 +1,7 @@
 "use client";
 
 import Card from "@/components/Card";
+import Skeleton from "@/components/Skeleton";
 import { formatPrice, useSessionStore } from "@/store";
 import { Balance, Transaction } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -12,6 +13,9 @@ const Dashboard: React.FC = () => {
     { _sum: { amount: number }; type: string; month: string }[]
   >([]);
   const [balance, setBalance] = useState<number>(0);
+
+  const [loadingBal, setLoadingBal] = useState<boolean>(true);
+  const [loadingTrans, setLoadingTrans] = useState<boolean>(true);
 
   const [today, setToday] = useState<{ income: number; expense: number }>({
     income: 0,
@@ -29,6 +33,9 @@ const Dashboard: React.FC = () => {
 
       if (Number(temp.amount) !== 0) {
         setBalance(Number(temp.amount));
+        setLoadingBal(false);
+      } else {
+        setLoadingBal(false);
       }
     });
   };
@@ -66,6 +73,8 @@ const Dashboard: React.FC = () => {
     });
 
     setToday({ income: income, expense: expense });
+
+    setLoadingTrans(false);
   };
 
   const getChartData = async () => {
@@ -95,13 +104,17 @@ const Dashboard: React.FC = () => {
         <Card className='flex flex-col gap-2 basis-1/3'>
           <h1>Balance</h1>
 
-          <h1
-            className={
-              "font-extrabold text-xl " + (balance < 0 ? "text-red-500" : "")
-            }
-          >
-            Rp {formatPrice(balance)}
-          </h1>
+          {loadingBal ? (
+            <Skeleton className='w-full h-8' />
+          ) : (
+            <h1
+              className={
+                "font-extrabold text-xl " + (balance < 0 ? "text-red-500" : "")
+              }
+            >
+              Rp {formatPrice(balance)}
+            </h1>
+          )}
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
@@ -109,9 +122,13 @@ const Dashboard: React.FC = () => {
             {new Date().toLocaleString("default", { month: "long" })} Income
           </h1>
 
-          <h1 className='font-extrabold text-xl text-green-600'>
-            Rp {formatPrice(today.income)}
-          </h1>
+          {loadingTrans ? (
+            <Skeleton className='w-full h-8' />
+          ) : (
+            <h1 className='font-extrabold text-xl text-green-600'>
+              Rp {formatPrice(today.income)}
+            </h1>
+          )}
         </Card>
 
         <Card className='flex flex-col gap-2 basis-1/3'>
@@ -119,9 +136,13 @@ const Dashboard: React.FC = () => {
             {new Date().toLocaleString("default", { month: "long" })} Expense
           </h1>
 
-          <h1 className='font-extrabold text-xl text-red-500'>
-            Rp {formatPrice(today.expense)}
-          </h1>
+          {loadingTrans ? (
+            <Skeleton className='w-full h-8' />
+          ) : (
+            <h1 className='font-extrabold text-xl text-red-600'>
+              Rp {formatPrice(today.expense)}
+            </h1>
+          )}
         </Card>
       </div>
 
