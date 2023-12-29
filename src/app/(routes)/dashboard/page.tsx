@@ -16,6 +16,7 @@ const Dashboard: React.FC = () => {
 
   const [loadingBal, setLoadingBal] = useState<boolean>(true);
   const [loadingTrans, setLoadingTrans] = useState<boolean>(true);
+  const [loadingChart, setLoadingChart] = useState<boolean>(true);
 
   const [today, setToday] = useState<{ income: number; expense: number }>({
     income: 0,
@@ -86,6 +87,7 @@ const Dashboard: React.FC = () => {
       const res = await data.json();
       setChartData(res);
     });
+    setLoadingChart(false);
   };
 
   useEffect(() => {
@@ -146,7 +148,11 @@ const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      <ChartSection data={chartData} />
+      {loadingChart ? (
+        <Skeleton className='w-full h-72' />
+      ) : (
+        <ChartSection data={chartData} />
+      )}
     </section>
   );
 };
