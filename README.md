@@ -2,10 +2,26 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+This project also using PRISMA for ORM (Backend) and /api are the queries to backend. //models are in prisma folder.
+
+If you want to run in your local you need to set up the following ENV :
+
+POSTGRES_URL=""
+POSTGRES_PRISMA_URL=""
+POSTGRES_URL_NON_POOLING=""
+POSTGRES_USER=""
+POSTGRES_HOST=""
+POSTGRES_PASSWORD=""
+POSTGRES_DATABASE=""
+
+and then run : npx prisma db push // to upload models to your own database
+
+and to see tabels you can do : npx prisma studio
+
+to run the project on the development server:
 
 ```bash
-npm run dev
+npm run dev && npm prisma generate // using npm
 # or
 yarn dev
 # or
